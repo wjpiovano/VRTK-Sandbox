@@ -34,3 +34,12 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+!/Assets/                # Add Assets folder, but ...
+/Assets/*                # Remove everything under Assets again.
+# Now add back our core game folders.
+!/Assets/_Animations/
+!/Assets/_Prefabs/
+!/Assets/_Scenes/
+!/Assets/_Scripts/
+!/Assets/_Textures/
