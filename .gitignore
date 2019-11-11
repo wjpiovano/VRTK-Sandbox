@@ -35,12 +35,11 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-!/Assets/                # Add Assets folder, but ...
-/Assets/*                # Remove everything under Assets again.
-# Now add back our core game folders.
-!/Assets/_Animations/
-!/Assets/_Prefabs/
-!/Assets/_Scenes/
-!/Assets/_Scripts/
-!/Assets/_Textures/
-!/Assets/_Materials/
+!VRTK Sandbox/Assets
+VRTK Sandbox/Assets/*
+!VRTK Sandbox/Assets/_Animations/
+!VRTK Sandbox/Assets/_Prefabs/
+!VRTK Sandbox/Assets/_Scenes/
+!VRTK Sandbox/Assets/_Scripts/
+!VRTK Sandbox/Assets/_Textures/
+!VRTK Sandbox/Assets/_Materials/
