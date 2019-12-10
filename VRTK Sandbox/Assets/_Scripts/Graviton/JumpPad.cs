@@ -6,10 +6,12 @@ public class JumpPad : MonoBehaviour
 {
   public float bounciness = 5;
   private Rigidbody rb;
+  private AudioSource bounceClip;
 
   private void Start()
   {
     rb = GetComponent<Rigidbody>();
+    bounceClip = GetComponentInChildren<AudioSource>();
   }
 
   public void Freeze()
@@ -32,6 +34,8 @@ public class JumpPad : MonoBehaviour
 
   private void OnCollisionEnter(Collision other)
   {
+    bounceClip.Play();
+
     var rbOther = other.rigidbody;
     //rb.AddForce(transform.forward * 100f);
     //rb.AddForce(Vector3.Reflect(transform.position, other.GetContact(0).normal) * 5, ForceMode.Impulse);

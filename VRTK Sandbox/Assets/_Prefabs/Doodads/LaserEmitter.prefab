@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8002117845527659388}
   m_Layer: 0
   m_Name: Laser
-  m_TagString: Untagged
+  m_TagString: Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6247fbf415f860f42a80a34fc20cf33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxReflectionCount: 5
+  maxStepDistance: 5
 --- !u!120 &8002117845527659388
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -84,7 +86,10 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 2, z: 0}
+  - {x: 0, y: 5, z: 0.00000014901161}
+  - {x: 0, y: 10, z: 0.00000029802322}
+  - {x: 0, y: 15, z: 0.00000044703484}
+  - {x: 0, y: 20, z: 0.00000059604645}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.005
