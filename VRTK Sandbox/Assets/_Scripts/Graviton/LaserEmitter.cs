@@ -55,32 +55,69 @@ public class LaserEmitter : MonoBehaviour
     }
   }
 
+  private void ActivateReceptorIfInactive(GameObject collidedObject)
+  {
+    if (_receptor == null)
+      {
+        _receptor = collidedObject.GetComponent<LaserReceptor>();
+        _receptor.PowerUpReceptor();
+      }
+  }
+
   public int maxReflectionCount = 5;
   public float maxStepDistance = 200f;
 
   void LateUpdate()
   {
-    //DrawReflectionPattern(this.transform.position + this.transform.forward * 0.75f, this.transform.forward, maxReflectionCount);
-    _lineRenderer.SetPosition(0, transform.position);
-    DrawReflectionPattern(this.transform.position, this.transform.up, maxReflectionCount);
+    //if (this.transform.hasChanged)
+    {
+      _lineRenderer.SetPosition(0, transform.position);
+      var receptorHit = false;      
+      DrawReflectionPattern(this.transform.position, this.transform.up, maxReflectionCount, ref receptorHit);
+      if (!receptorHit)
+      {
+        // We have reached the end of the reflection cycle and did not hit a receptor.
+        // Deactivate any receptor we happened to have activated before.
+        DeActivateReceptorIfActive();
+      }
+
+      this.transform.hasChanged = false;
+    }
   }
 
-  private void DrawReflectionPattern(Vector3 position, Vector3 direction, int reflectionsRemaining)
+  private void DrawReflectionPattern(Vector3 position, Vector3 direction, int reflectionsRemaining, ref bool receptorHit)
   {
     var positionIndex = maxReflectionCount - reflectionsRemaining + 1;
+
     if (positionIndex >= _lineRenderer.positionCount)
     {
       return;
     }
 
     Vector3 startingPosition = position;
+    bool continueReflecting = false;
 
     Ray ray = new Ray(position, direction);
     RaycastHit hit;
     if (Physics.Raycast(ray, out hit, maxStepDistance))
     {
-      direction = Vector3.Reflect(direction, hit.normal);
       position = hit.point;
+      var collidedObject = hit.collider.gameObject;      
+      if (this.ReceptorHit(collidedObject))
+      {
+        ActivateReceptorIfInactive(collidedObject);
+        receptorHit = true;
+        NullifyRemainingPoints(positionIndex, position);
+      }
+      else if (this.MirrorHit(collidedObject))
+      {
+        direction = Vector3.Reflect(direction, hit.normal);
+        continueReflecting = true;
+      }
+      else
+      {
+        NullifyRemainingPoints(positionIndex, position);
+      }
     }
     else
     {
@@ -88,16 +125,32 @@ public class LaserEmitter : MonoBehaviour
     }
 
     //Debug.DrawLine(startingPosition, position, Color.red);
-    if (positionIndex >= _lineRenderer.positionCount)
-    {
-      //Debug.LogWarning("Invalid laser emitter position index.");
-    }
-    else
-    {
-      _lineRenderer.SetPosition(positionIndex, position);
-    }
+    _lineRenderer.SetPosition(positionIndex, position);
 
-    DrawReflectionPattern(position, direction, reflectionsRemaining - 1);
+    if (continueReflecting)
+    {
+      DrawReflectionPattern(position, direction, reflectionsRemaining - 1, ref receptorHit);
+    }
+  }
+
+  // Check if we hit a laser emitter
+  private bool ReceptorHit(GameObject collidedObject)
+  { 
+    return collidedObject.tag == "LaserReceptor";
+  }
+
+  // Check if we hit a mirror
+  private bool MirrorHit(GameObject collidedObject)
+  {
+    return collidedObject.tag == "Mirror";
+  }
+
+  private void NullifyRemainingPoints(int positionIndex, Vector3 position)
+  {
+    for (int index = positionIndex; index < _lineRenderer.positionCount; index++)
+    {
+      _lineRenderer.SetPosition(index, position);
+    }
   }
 
 }
