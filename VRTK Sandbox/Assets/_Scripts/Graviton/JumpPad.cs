@@ -5,6 +5,7 @@ using UnityEngine;
 public class JumpPad : MonoBehaviour
 {
   public float bounciness = 5;
+  public ForceMode forceMode;
   private Rigidbody rb;
   private AudioSource bounceClip;
 
@@ -12,24 +13,6 @@ public class JumpPad : MonoBehaviour
   {
     rb = GetComponent<Rigidbody>();
     bounceClip = GetComponentInChildren<AudioSource>();
-  }
-
-  public void Freeze()
-  {
-  }
-
-  public void Unfreeze()
-  {
-  }
-
-  public void CollisionStarted()
-  {
-    Debug.Log("RVR:: Collision started");
-  }
-
-  private void OnTriggerEnter(Collider other)
-  {
-    //var rb = other.GetComponent<Rigidbody>();
   }
 
   private void OnCollisionEnter(Collision other)
@@ -43,7 +26,7 @@ public class JumpPad : MonoBehaviour
     var moveVector = other.contacts[0].normal * -bounciness;
     Debug.DrawRay(other.contacts[0].point, moveVector, Color.red, 5);
     //Debug.DrawRay(transform.position, Vector3.up * 3, Color.red, 5);
-    rbOther.AddForce(moveVector, ForceMode.Impulse);
+    rbOther.AddForce(moveVector, forceMode);
     //transform.SetPositionAndRotation(new Vector3(0,0,0), Quaternion.identity);
   }
 }
