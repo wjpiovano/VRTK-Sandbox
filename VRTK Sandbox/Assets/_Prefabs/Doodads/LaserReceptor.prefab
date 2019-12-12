@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7830708830457607792}
   - component: {fileID: 889350376246154843}
   - component: {fileID: 540509497698034480}
-  - component: {fileID: 4679982449504371135}
   - component: {fileID: 1526202787769521533}
   - component: {fileID: 5256728220101161922}
+  - component: {fileID: 4679982449504371135}
   m_Layer: 0
   m_Name: LaserReceptor
   m_TagString: LaserReceptor
@@ -3953,22 +3953,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!114 &4679982449504371135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4859323004772435289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6871f8fdbff192a4997d4ef13b5303fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activatedClip: {fileID: 8300000, guid: a81049035bc96274ba6e89b36ab901df, type: 3}
-  deactivatedClip: {fileID: 8300000, guid: f275ca2d3d1fb78449c5a6be8646760a, type: 3}
-  activeMaterial: {fileID: 2100000, guid: 1c23c688bd6c5bd48b3805b20346b076, type: 2}
-  mesh: {fileID: 889350376246154843}
 --- !u!136 &1526202787769521533
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4079,3 +4063,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4679982449504371135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4859323004772435289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6871f8fdbff192a4997d4ef13b5303fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatable: {fileID: 0}
+  activatedClip: {fileID: 8300000, guid: a81049035bc96274ba6e89b36ab901df, type: 3}
+  deactivatedClip: {fileID: 8300000, guid: f275ca2d3d1fb78449c5a6be8646760a, type: 3}
+  activeMaterial: {fileID: 2100000, guid: 1c23c688bd6c5bd48b3805b20346b076, type: 2}
+  mesh: {fileID: 889350376246154843}

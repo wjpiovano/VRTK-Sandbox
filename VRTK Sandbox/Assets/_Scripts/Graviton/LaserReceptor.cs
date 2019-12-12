@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LaserReceptor : MonoBehaviour
 {
+  public Activatable activatable;
   public AudioClip activatedClip;
   public AudioClip deactivatedClip;
   public Material activeMaterial;
@@ -23,29 +24,16 @@ public class LaserReceptor : MonoBehaviour
     activeMaterialsArray[1] = activeMaterial;
   }
 
-  // private void OnTriggerEnter(Collider other)
-  // {
-  //   if (other.gameObject.tag == "Laser")
-  //   {
-  //     TrySetInnerMaterial(activeMaterial);
-  //   }
-  // }
-
-  // private void OnTriggerExit(Collider other)
-  // {
-  //   if (other.gameObject.tag == "Laser")
-  //   {
-  //     TrySetInnerMaterial(inactiveMaterial);
-  //   }
-  // }
-
   public void PowerUpReceptor()
   {
+    activatable.Activate();
+
     if (activeMaterialsArray != null)
     {
       audioSource.PlayOneShot(activatedClip);
       mesh.materials = activeMaterialsArray;
     }
+
     _activationCount++;
   }
 
@@ -55,9 +43,12 @@ public class LaserReceptor : MonoBehaviour
     {
       return;
     }
+
     _activationCount--;
+
     if (_activationCount == 0 && inactiveMaterialsArray != null)
     {
+      activatable.Deactivate();
       audioSource.PlayOneShot(deactivatedClip);
       mesh.materials = inactiveMaterialsArray;
     }

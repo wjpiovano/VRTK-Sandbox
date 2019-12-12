@@ -13,39 +13,6 @@ public class LaserEmitter : MonoBehaviour
     _lineRenderer = GetComponent<LineRenderer>();
   }
 
-  // private void LateUpdate2()
-  // {
-  //   _lineRenderer.SetPosition(0, transform.position);
-  //   RaycastHit hit;
-  //   if (Physics.Raycast(transform.position, transform.up, out hit))
-  //   {
-  //     if (hit.collider != null)
-  //     {
-  //       _lineRenderer.SetPosition(1, hit.point);
-
-  //       // Check if we hit a laser emitter
-  //       var collidedObject = hit.collider.gameObject;
-  //       if (collidedObject.tag == "LaserReceptor")
-  //       {
-  //         if (_receptor == null)
-  //         {
-  //           _receptor = collidedObject.GetComponent<LaserReceptor>();
-  //           _receptor.PowerUpReceptor();
-  //         }
-  //       }
-  //       else
-  //       {
-  //         DeActivateReceptorIfActive();
-  //       }
-  //     }
-  //   }
-  //   else
-  //   {
-  //     _lineRenderer.SetPosition(1, transform.position + transform.up * 10);
-  //     DeActivateReceptorIfActive();
-  //   }
-  // }
-
   private void DeActivateReceptorIfActive()
   {
     if (_receptor != null)
