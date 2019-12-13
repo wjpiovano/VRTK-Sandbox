@@ -1,20 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameController : MonoBehaviour
 {
   public GameObject gBallPrefab;
   public AudioSource soundtrack;
+  public List<GravitonLevel> levels;
 
   private TrailRenderer _gBallTrailRenderer;
   private bool _timePaused = false;
-  private float _startingSoundtrackVolume;
+  private float _startingSoundtrackVolume;  
 
   private void Start()
   {
     _gBallTrailRenderer = gBallPrefab.GetComponent<TrailRenderer>();
     _startingSoundtrackVolume = soundtrack.volume;
+
+    for (int i = 0; i < levels.Count - 1; i++)
+    {
+      levels[i].sceneCompleted += scene => TransitionLevel(scene, levels[i+1]);
+    }
+  }
+
+  private void TransitionLevel(GravitonLevel finishedScene, GravitonLevel nextScene)  
+  {
+    finishedScene.TearDown();
+    nextScene.Setup();
   }
 
   void Update()

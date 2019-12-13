@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum JumpPadMode { SurfaceNormal, Reflective, SurfaceNormalNoMass }
+
 public class JumpPad : MonoBehaviour
 {
   public float bounciness = 5;
-  public ForceMode forceMode;
+  public ForceMode forceMode = ForceMode.Impulse;
+  public JumpPadMode jumpPadMode = JumpPadMode.SurfaceNormalNoMass;
+
   private Rigidbody rb;
   private AudioSource bounceClip;
 
@@ -20,13 +24,26 @@ public class JumpPad : MonoBehaviour
     bounceClip.Play();
 
     var rbOther = other.rigidbody;
-    //rb.AddForce(transform.forward * 100f);
-    //rb.AddForce(Vector3.Reflect(transform.position, other.GetContact(0).normal) * 5, ForceMode.Impulse);
-    //rb.AddForce(Vector3.up * -100f, ForceMode.Impulse);
-    var moveVector = other.contacts[0].normal * -bounciness;
-    Debug.DrawRay(other.contacts[0].point, moveVector, Color.red, 5);
-    //Debug.DrawRay(transform.position, Vector3.up * 3, Color.red, 5);
-    rbOther.AddForce(moveVector, forceMode);
-    //transform.SetPositionAndRotation(new Vector3(0,0,0), Quaternion.identity);
+    if (jumpPadMode == JumpPadMode.SurfaceNormal)
+    {
+      var moveVector = other.contacts[0].normal * -bounciness;
+      Debug.DrawRay(other.contacts[0].point, moveVector, Color.red, 5);
+      rbOther.AddForce(moveVector, forceMode);
+    }
+    else if (jumpPadMode == JumpPadMode.Reflective)
+    {
+      rbOther.velocity = Vector3.zero;
+      var moveVector = Vector3.Reflect(rbOther.velocity, other.contacts[0].normal) * -bounciness;
+      Debug.DrawRay(other.contacts[0].point, moveVector, Color.red, 5);
+      rbOther.AddForce(moveVector, forceMode);
+    }
+    else if (jumpPadMode == JumpPadMode.SurfaceNormalNoMass)
+    {
+      rbOther.velocity = Vector3.zero;
+      rbOther.angularVelocity = Vector3.zero;
+      var moveVector = other.GetContact(0).normal * -bounciness;
+      Debug.DrawRay(other.contacts[0].point, moveVector, Color.red, 5);
+      rbOther.AddForce(moveVector, forceMode);
+    }
   }
 }

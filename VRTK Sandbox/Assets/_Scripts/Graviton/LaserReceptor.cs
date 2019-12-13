@@ -15,7 +15,6 @@ public class LaserReceptor : MonoBehaviour
   private Material[] inactiveMaterialsArray;
   private AudioSource audioSource;
   private bool _activating = false;
-  private float _delayTime = 0;
 
   private void Start()
   {
@@ -29,23 +28,20 @@ public class LaserReceptor : MonoBehaviour
 
   private void Update()
   {
-    if (_activating)
-    {
-      _delayTime += Time.deltaTime;
-      if (_delayTime > 1)
-      {
-        _activating = false;
-        _delayTime = 0;
-      }
-    }
+    // if (_activating)
+    // {
+    //   _delayTime += Time.deltaTime;
+    //   if (_delayTime > 1)
+    //   {
+    //     _activating = false;
+    //     _delayTime = 0;
+    //   }
+    // }
   }
 
   public void PowerUpReceptor()
-  {
-    // if (_activating)
-    //   return;
-    
-    _activating = true;
+  {    
+    //_activating = true;
     activatable.Activate();
 
     if (activeMaterialsArray != null)
@@ -59,7 +55,6 @@ public class LaserReceptor : MonoBehaviour
 
   public void PowerDownReceptor()
   {
-    //_activating || 
     if (_activationCount == 0)
     {
       return;
