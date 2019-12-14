@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 
   private void Start()
   {
-    _gBallTrailRenderer = gBallPrefab.GetComponent<TrailRenderer>();
+    _gBallTrailRenderer = gBallPrefab.GetComponentInChildren<TrailRenderer>();
 
     for (int i = 0; i < levels.Count - 1; i++)
     {
