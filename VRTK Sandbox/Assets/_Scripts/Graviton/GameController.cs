@@ -6,35 +6,49 @@ using System.Linq;
 public class GameController : MonoBehaviour
 {
   public GameObject gBallPrefab;
-  public AudioSource soundtrack;
-  public List<GravitonLevel> levels;
+  public GameObject victoryScreen;
+  public List<GravitonLevel> levels;  
 
   private TrailRenderer _gBallTrailRenderer;
-  private bool _timePaused = false;
-  private float _startingSoundtrackVolume;  
+  private GravitonLevel _activeLevel;
+  private bool _gamePaused = false;
 
   private void Start()
   {
     _gBallTrailRenderer = gBallPrefab.GetComponent<TrailRenderer>();
-    _startingSoundtrackVolume = soundtrack.volume;
 
     for (int i = 0; i < levels.Count - 1; i++)
     {
-      levels[i].sceneCompleted += scene => TransitionLevel(scene, levels[i+1]);
+      var levelIndex = i;
+      levels[levelIndex].sceneCompleted += scene => LevelComplete(scene, levels[levelIndex+1]);
     }
+
+    _activeLevel = levels.FirstOrDefault();
+    _activeLevel?.Setup();
   }
 
-  private void TransitionLevel(GravitonLevel finishedScene, GravitonLevel nextScene)  
+  private GravitonLevel _finishedLevel;
+  private GravitonLevel _nextLevel;
+  private void LevelComplete(GravitonLevel finishedLevel, GravitonLevel nextLevel)
   {
-    finishedScene.TearDown();
-    nextScene.Setup();
+    victoryScreen.SetActive(true);
+    _finishedLevel = finishedLevel;
+    _nextLevel = nextLevel;
+  }
+
+  public void TransitionLevel()  
+  {
+    victoryScreen.SetActive(false);
+    _finishedLevel.TearDown();
+    _nextLevel.Setup();
+    _activeLevel = _nextLevel;
   }
 
   void Update()
   {
     if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch))
     {
-      if (_timePaused)
+      if (_gamePaused)
         Pause();
       else
         Resume();
@@ -51,7 +65,7 @@ public class GameController : MonoBehaviour
         }
     if (Input.GetKeyDown("p"))
     {
-      if (_timePaused)
+      if (_gamePaused)
         Pause();
       else
         Resume();
@@ -62,15 +76,15 @@ public class GameController : MonoBehaviour
   private void Pause()
   {
     Time.timeScale = 1;
-    soundtrack.volume = _startingSoundtrackVolume;
-    _timePaused = false;
+    _activeLevel.MuteAudio();
+    _gamePaused = false;
   }
 
   private void Resume()
   {
     Time.timeScale = 0;
-    soundtrack.volume = 0.1f;
-    _timePaused = true;
+    _activeLevel.ResumeAudio();
+    _gamePaused = true;
   }
 
   private void ToggleBallTrail()
