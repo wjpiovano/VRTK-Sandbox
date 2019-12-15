@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
       levels[levelIndex].sceneCompleted += scene => LevelComplete(scene, levels[levelIndex+1]);
     }
 
-    _activeLevel = levels.FirstOrDefault();
+    _activeLevel = levels[3];//.FirstOrDefault();
     _activeLevel?.Setup();
   }
 
