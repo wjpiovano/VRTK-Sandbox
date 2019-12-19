@@ -7,7 +7,8 @@ public class GameController : MonoBehaviour
 {
   public GameObject gBallPrefab;
   public GameObject victoryScreen;
-  public List<GravitonLevel> levels;  
+  public List<GravitonLevel> levels;
+  public int startingLevel = 0;
 
   private TrailRenderer _gBallTrailRenderer;
   private GravitonLevel _activeLevel;
@@ -23,7 +24,7 @@ public class GameController : MonoBehaviour
       levels[levelIndex].sceneCompleted += scene => LevelComplete(scene, levels[levelIndex+1]);
     }
 
-    _activeLevel = levels[3];//.FirstOrDefault();
+    _activeLevel = levels[startingLevel];//.FirstOrDefault();
     _activeLevel?.Setup();
   }
 
@@ -59,17 +60,17 @@ public class GameController : MonoBehaviour
     }
 
     #if UNITY_EDITOR
-    if (Input.GetKeyDown("space"))
-        {
-            ToggleBallTrail();
-        }
-    if (Input.GetKeyDown("p"))
-    {
-      if (_gamePaused)
-        Pause();
-      else
-        Resume();
-    }
+    // if (Input.GetKeyDown("space"))
+    //     {
+    //         ToggleBallTrail();
+    //     }
+    // if (Input.GetKeyDown("p"))
+    // {
+    //   if (_gamePaused)
+    //     Pause();
+    //   else
+    //     Resume();
+    // }
     #endif
   }
 

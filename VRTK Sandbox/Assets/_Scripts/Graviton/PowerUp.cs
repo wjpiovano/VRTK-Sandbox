@@ -18,7 +18,7 @@ public class PowerUp : MonoBehaviour
     pickupSound = GetComponent<AudioSource>();    
 
     #if UNITY_EDITOR
-    InvokeRepeating("DebugToggleOn", 5, 5);
+    //InvokeRepeating("DebugToggleOn", 5, 5);
     #endif
   }
 

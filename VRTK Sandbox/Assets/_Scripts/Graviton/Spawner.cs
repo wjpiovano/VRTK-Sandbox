@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
   public void Start()
   {
     #if UNITY_EDITOR
-    InvokeRepeating("Spawn", 3, 5);
+    //InvokeRepeating("Spawn", 3, 5);
     #endif
   }
 
